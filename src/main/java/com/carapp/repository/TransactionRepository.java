@@ -1,0 +1,17 @@
+package com.carapp.repository;
+
+import com.carapp.model.Transaction;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
+    List<Transaction> findByCustomerId(Long customerId);
+
+    List<Transaction> findByVehicleId(Long vehicleId);
+
+    List<Transaction> findByType(Transaction.TransactionType type);
+}
