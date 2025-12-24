@@ -3,6 +3,7 @@ package com.carapp.service;
 import com.carapp.dto.CustomerDTO;
 import com.carapp.dto.CustomerRequestDTO;
 import com.carapp.dto.mapper.CustomerMapper;
+import com.carapp.exception.ResourceNotFoundException;
 import com.carapp.model.Customer;
 import com.carapp.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,11 @@ public class CustomerService {
 
     public void deleteCustomer(Long id) {
         customerRepository.deleteById(id);
+    }
+
+    public CustomerDTO getCustomerByEmail(String email) {
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
+        return customerMapper.toDTO(customer);
     }
 }

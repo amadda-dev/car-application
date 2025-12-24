@@ -46,4 +46,10 @@ public class CustomerController {
         customerService.deleteCustomer(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<CustomerDTO> getCustomerByEmail(@PathVariable String email) {
+        CustomerDTO customer = customerService.getCustomerByEmail(email);
+        return ResponseEntity.ok(customer);
+    }
 }
