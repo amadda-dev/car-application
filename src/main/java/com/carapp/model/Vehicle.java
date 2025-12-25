@@ -31,7 +31,7 @@ public class Vehicle {
     private String model;
 
     @Column(nullable = false)
-    private Integer year;
+    private Integer car_year;
 
     @Column(unique = true)
     private String vin;
@@ -47,7 +47,7 @@ public class Vehicle {
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     @JsonBackReference
     private Customer customer;
 

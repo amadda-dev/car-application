@@ -33,7 +33,7 @@ public class CustomerService {
 
     public CustomerDTO getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with this id"));
         return customerMapper.toDTO(customer);
     }
 
@@ -66,4 +66,5 @@ public class CustomerService {
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
         return customerMapper.toDTO(customer);
     }
+
 }
