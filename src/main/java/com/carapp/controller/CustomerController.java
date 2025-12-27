@@ -2,12 +2,17 @@ package com.carapp.controller;
 
 import com.carapp.dto.CustomerDTO;
 import com.carapp.dto.CustomerRequestDTO;
+import com.carapp.dto.export.CustomerExportDTO;
 import com.carapp.service.CustomerService;
+import com.carapp.service.export.CsvExportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -16,6 +21,9 @@ public class CustomerController {
 
     @Autowired
     private CustomerService customerService;
+
+    @Autowired
+    private CsvExportService csvExportService;
 
     @PostMapping
     public ResponseEntity<CustomerDTO> createCustomer(@RequestBody CustomerRequestDTO requestDTO) {
@@ -52,4 +60,17 @@ public class CustomerController {
         CustomerDTO customer = customerService.getCustomerByEmail(email);
         return ResponseEntity.ok(customer);
     }
+
+    @GetMapping("/export/csv")
+    public ResponseEntity<byte[]> exportCustomersToCSV() throws IOException {
+        List<CustomerExportDTO> customers = customerService.getAllCustomersForExport();
+        byte[] csvData = csvExportService.exportCustomersToCSV(customers);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.parseMediaType("text/csv"));
+        headers.setContentDispositionFormData("attachment", "customers.csv");
+
+        return new ResponseEntity<>(csvData, headers, HttpStatus.OK);
+    }
+
 }

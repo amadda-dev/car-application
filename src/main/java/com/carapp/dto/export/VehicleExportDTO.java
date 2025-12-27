@@ -1,24 +1,17 @@
-package com.carapp.dto;
+package com.carapp.dto.export;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class VehicleDTO {
-    private Long id;
+public class VehicleExportDTO {
     private String make;
     private String model;
-    private Integer year;
-    private String vin;
+    private Integer car_year;
     private String color;
     private Boolean sold;
-    private Long customerId;
     private String customerName;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

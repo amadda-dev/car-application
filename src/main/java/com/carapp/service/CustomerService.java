@@ -2,6 +2,7 @@ package com.carapp.service;
 
 import com.carapp.dto.CustomerDTO;
 import com.carapp.dto.CustomerRequestDTO;
+import com.carapp.dto.export.CustomerExportDTO;
 import com.carapp.dto.mapper.CustomerMapper;
 import com.carapp.exception.ResourceNotFoundException;
 import com.carapp.model.Customer;
@@ -65,6 +66,13 @@ public class CustomerService {
         Customer customer = customerRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("Customer", "email", email));
         return customerMapper.toDTO(customer);
+    }
+
+    public List<CustomerExportDTO> getAllCustomersForExport() {
+        return customerRepository.findAll()
+                .stream()
+                .map(customerMapper::toExportDTO)
+                .collect(Collectors.toList());
     }
 
 }

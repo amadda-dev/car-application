@@ -13,5 +13,6 @@ public class VehicleRequestDTO {
     private Integer car_year;
     private String vin;
     private String color;
+    private Boolean sold;
     private Long customerId;
 }

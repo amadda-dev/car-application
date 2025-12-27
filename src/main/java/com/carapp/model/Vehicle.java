@@ -38,6 +38,9 @@ public class Vehicle {
 
     private String color;
 
+    @Column(nullable = false)
+    private Boolean sold = false;
+
     @CreationTimestamp
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

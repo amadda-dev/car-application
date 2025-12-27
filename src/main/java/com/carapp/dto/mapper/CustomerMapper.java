@@ -2,6 +2,7 @@ package com.carapp.dto.mapper;
 
 import com.carapp.dto.CustomerDTO;
 import com.carapp.dto.CustomerRequestDTO;
+import com.carapp.dto.export.CustomerExportDTO;
 import com.carapp.model.Customer;
 import org.springframework.stereotype.Component;
 
@@ -28,4 +29,14 @@ public class CustomerMapper {
         customer.setAddress(dto.getAddress());
         return customer;
     }
+
+    public CustomerExportDTO toExportDTO(Customer customer) {
+        return new CustomerExportDTO(
+                customer.getName(),
+                customer.getEmail(),
+                customer.getPhone()
+        );
+    }
+
+
 }

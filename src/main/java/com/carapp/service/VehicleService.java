@@ -2,6 +2,7 @@ package com.carapp.service;
 
 import com.carapp.dto.VehicleDTO;
 import com.carapp.dto.VehicleRequestDTO;
+import com.carapp.dto.export.VehicleExportDTO;
 import com.carapp.dto.mapper.VehicleMapper;
 import com.carapp.exception.ResourceNotFoundException;
 import com.carapp.model.Customer;
@@ -74,6 +75,7 @@ public class VehicleService {
         vehicle.setModel(requestDTO.getModel());
         vehicle.setCar_year(requestDTO.getCar_year());
         vehicle.setVin(requestDTO.getVin());
+        vehicle.setSold(requestDTO.getSold());
         vehicle.setColor(requestDTO.getColor());
 
         if (requestDTO.getCustomerId() != null) {
@@ -95,5 +97,26 @@ public class VehicleService {
             throw new ResourceNotFoundException("Vehicle", "id", id);
         }
         vehicleRepository.deleteById(id);
+    }
+    public List<VehicleExportDTO> getAllVehiclesForExport() {
+        return vehicleRepository.findAll()
+                .stream()
+                .map(vehicleMapper::toExportDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List<VehicleDTO> getSoldVehicles() {
+        return vehicleRepository.findBySold(true)
+                .stream()
+                .map(vehicleMapper::toDTO)
+                .collect(Collectors.toList());
+
+    }
+
+    public List<VehicleDTO> searchVehicles(Boolean sold, String make, String model, Integer year, String color) {
+        List<Vehicle> vehicles = vehicleRepository.searchVehicles(sold, make, model, year, color);
+        return vehicles.stream()
+                .map(vehicleMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }

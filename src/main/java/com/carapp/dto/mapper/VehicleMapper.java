@@ -2,6 +2,7 @@ package com.carapp.dto.mapper;
 
 import com.carapp.dto.VehicleDTO;
 import com.carapp.dto.VehicleRequestDTO;
+import com.carapp.dto.export.VehicleExportDTO;
 import com.carapp.model.Customer;
 import com.carapp.model.Vehicle;
 import org.springframework.stereotype.Component;
@@ -16,6 +17,7 @@ public class VehicleMapper {
         dto.setModel(vehicle.getModel());
         dto.setYear(vehicle.getCar_year());
         dto.setVin(vehicle.getVin());
+        dto.setSold(vehicle.getSold());
         dto.setColor(vehicle.getColor());
 
         if (vehicle.getCustomer() != null) {
@@ -34,9 +36,9 @@ public class VehicleMapper {
         vehicle.setModel(dto.getModel());
         vehicle.setCar_year(dto.getCar_year());
         vehicle.setVin(dto.getVin());
+        vehicle.setSold(dto.getSold());
         vehicle.setColor(dto.getColor());
 
-        // Only set customer if provided
         if (dto.getCustomerId() != null) {
             Customer customer = new Customer();
             customer.setId(dto.getCustomerId());
@@ -44,5 +46,16 @@ public class VehicleMapper {
         }
 
         return vehicle;
+    }
+
+    public VehicleExportDTO toExportDTO(Vehicle vehicle) {
+        return new VehicleExportDTO(
+                vehicle.getMake(),
+                vehicle.getModel(),
+                vehicle.getCar_year(),
+                vehicle.getColor(),
+                vehicle.getSold(),
+                vehicle.getCustomer() != null ? vehicle.getCustomer().getName() : null
+        );
     }
 }
